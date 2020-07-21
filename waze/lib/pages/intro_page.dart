@@ -52,7 +52,7 @@ class IntroPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     side: BorderSide(color: Colors.amberAccent)
                   ),
-                  onPressed: () => Navigator.pushNamed(context, '/home')
+                  onPressed: () => Navigator.pushNamed(context, '/welcome')
                 ),
                 FlatButton(
                   child: RichText(

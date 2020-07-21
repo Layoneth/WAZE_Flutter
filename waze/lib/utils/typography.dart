@@ -35,4 +35,9 @@ class MyTypography {
     fontSize: 16.0
   );
 
+  static final blackParagraph = TextStyle(
+    color: Colors.black,
+    fontSize: 16.0
+  );
+
 }

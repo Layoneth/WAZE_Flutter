@@ -32,16 +32,13 @@ class _MyDrawerState extends State<MyDrawer> with TickerProviderStateMixin{
       length: _tabs.length,
       initialIndex: 1,
       child: Drawer(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          color: Colors.black87,
-          child: SafeArea(
+        child: SafeArea(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black87,
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                // DrawerHeader(
-                //   child: _rowButtons(),
-                // ),
                 _rowButtons(),
                 EmojiWidget(),
                 SizedBox(height: 16.0,),
@@ -68,7 +65,7 @@ class _MyDrawerState extends State<MyDrawer> with TickerProviderStateMixin{
             elevation: 50.0,
             backgroundColor: Colors.black,
             child: Icon(Icons.settings, color: Colors.amber),
-            onPressed: () {}),
+            onPressed: () => Navigator.pushNamed(context, '/myWaze' )),
           FloatingActionButton(
             heroTag: 'dos',
             elevation: 50.0,

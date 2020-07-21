@@ -6,8 +6,8 @@ class EmojiWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120.0,
-      height: 120.0,
+      width: 100.0,
+      height: 100.0,
       decoration: BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
     );
   }

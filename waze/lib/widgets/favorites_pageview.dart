@@ -8,6 +8,7 @@ class FavoritesPageView extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           _whereToTextFIeld(),
           Divider(thickness: 2.0,),
