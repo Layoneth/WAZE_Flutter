@@ -9,7 +9,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int alarmSelected = 0;
+  int _alarmSelected = 0;
+  bool _tutorial;
+
+  @override
+  void initState() {
+    _tutorial = true;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,9 +27,13 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: <Widget>[
           _map(context),
-          _whereToTextFIeld(context),
+          Positioned(
+            top: 32.0,
+            child: _whereToTextFIeld(context, 'micro1'),
+          ),
           _bottomMenu(context),
           _dragableBottomSheet(),
+          _tutorial ? _tutorialSign() : Container(),
         ],
       ),
     );
@@ -41,49 +53,46 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _whereToTextFIeld(BuildContext context) {
-    return Positioned(
-      top: 32.0,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(16.0),
-        child: TextField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(40.0),
-                ),
+  Widget _whereToTextFIeld(BuildContext context, String tag) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(16.0),
+      child: TextField(
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(40.0),
               ),
-              filled: true,
-              hintStyle: TextStyle(color: Colors.grey),
-              hintText: "Where to?",
-              fillColor: Colors.black,
-              prefixIcon: Icon(
-                Icons.loupe,
-                color: Colors.grey,
-              ),
-              suffixIcon: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: FloatingActionButton(
-                  heroTag: 'micro',
-                  backgroundColor: Colors.white,
-                  shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(40.0),
-                      ),
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                      )),
-                  elevation: 10.0,
-                  mini: true,
-                  child: Icon(
-                    Icons.mic,
-                    color: Colors.amberAccent,
-                  ),
-                  onPressed: () {},
+            ),
+            filled: true,
+            hintStyle: TextStyle(color: Colors.grey),
+            hintText: "Where to?",
+            fillColor: Colors.black,
+            prefixIcon: Icon(
+              Icons.loupe,
+              color: Colors.grey,
+            ),
+            suffixIcon: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                heroTag: tag,
+                backgroundColor: Colors.white,
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(40.0),
+                    ),
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                    )),
+                elevation: 10.0,
+                mini: true,
+                child: Icon(
+                  Icons.mic,
+                  color: Colors.amberAccent,
                 ),
-              )),
-        ),
+                onPressed: () {},
+              ),
+            )),
       ),
     );
   }
@@ -204,7 +213,9 @@ class _HomePageState extends State<HomePage> {
                           )),
                     ),
                     _rowAlerts(),
-                    SizedBox(height: 8.0,),
+                    SizedBox(
+                      height: 8.0,
+                    ),
                     ListTile(
                       leading: Icon(
                         Icons.cloud_circle,
@@ -250,7 +261,7 @@ class _HomePageState extends State<HomePage> {
     return InkWell(
       onTap: () {
         setState(() {
-          alarmSelected = number;
+          _alarmSelected = number;
         });
       },
       child: Padding(
@@ -269,7 +280,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
             borderRadius: BorderRadius.circular(16.0),
-            border: alarmSelected == number
+            border: _alarmSelected == number
                 ? Border.all(width: 2.0, color: Colors.blueAccent)
                 : null,
           ),
@@ -295,25 +306,115 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: MaterialButton(
-        child: Text(
-          'OK',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0
+          child: Text(
+            'OK',
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0),
           ),
-        ),
-        minWidth: double.maxFinite,
-        height: 48.0,
-        color: Colors.amber,
-        elevation: 5.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          side: BorderSide(color: Colors.amberAccent)
-        ),
-        // onPressed: (){},
-        onPressed: () => Navigator.pushNamed(context, '/report')
+          minWidth: double.maxFinite,
+          height: 48.0,
+          color: Colors.amber,
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              side: BorderSide(color: Colors.amberAccent)),
+          // onPressed: (){},
+          onPressed: () => Navigator.pushNamed(context, '/report')),
+    );
+  }
+
+  Widget _tutorialSign() {
+    return Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        // color: Colors.amberAccent.withOpacity(0.3),
+        child: Stack(
+          children: <Widget>[
+            HeaderCurvo(),
+            Positioned(
+                right: 32.0,
+                top: 64.0,
+                child: FloatingActionButton(
+                  heroTag: 'close',
+                  backgroundColor: Colors.black,
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _tutorial = false;
+                    });
+                  },
+                )),
+            Positioned(
+              top: 80.0,
+              left: 16.0,
+              child: Text(
+                'Enter your destination',
+                style: TextStyle(
+                    fontSize: 28.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Positioned(
+              top: 124.0,
+              left: 16.0,
+              child: Text(
+                'Address or place',
+                style: MyTypography.blackTittle,
+              ),
+            ),
+            Positioned(
+              top: 148.0,
+              left: 8.0,
+              right: 32.0,
+              child: _whereToTextFIeld(context, 'micro2'),
+            ),
+          ],
+        ));
+  }
+}
+
+class HeaderCurvo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _HeaderCurvoPainter(),
       ),
     );
+  }
+}
+
+class _HeaderCurvoPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final lapiz = new Paint();
+
+    // Propiedades
+    lapiz.color = Colors.amber[600].withOpacity(0.8);
+    lapiz.style = PaintingStyle.fill; // .fill .stroke
+    lapiz.strokeWidth = 20;
+
+    final path = new Path();
+
+    // Dibujar con el path y el lapiz
+    path.lineTo(0, size.height * 0.60);
+    path.quadraticBezierTo(
+        size.width * 0.35, size.height * 0.75, size.width, size.height * 0.55);
+    path.lineTo(size.width, 0);
+
+    canvas.drawPath(path, lapiz);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
   }
 }
