@@ -10,9 +10,9 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> with TickerProviderStateMixin{
   final _tabs = <Widget>[
-    FavoritesPageView(),
-    Text('STATUS', style: MyTypography.whiteParagraph,),
-    Text('CALLS', style: MyTypography.whiteParagraph,),
+    SingleChildScrollView(child: FavoritesPageView()),
+    Text('Favorites', style: MyTypography.whiteParagraph,),
+    Text('Planned', style: MyTypography.whiteParagraph,),
   ];
   PageController _pageController;
   TabController _tabController;
@@ -32,22 +32,21 @@ class _MyDrawerState extends State<MyDrawer> with TickerProviderStateMixin{
       length: _tabs.length,
       initialIndex: 1,
       child: Drawer(
-        child: SafeArea(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black87,
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                _rowButtons(),
-                EmojiWidget(),
-                SizedBox(height: 16.0,),
-                _messages(),
-                SizedBox(height: 16.0,),
-                _tabsD(context),
-                _tabPages(),
-              ],
-            ),
+        child: Container(
+          padding: EdgeInsets.only(top: 32.0),
+          height: MediaQuery.of(context).size.height,
+          color: Colors.black87,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              _rowButtons(),
+              EmojiWidget(),
+              SizedBox(height: 16.0,),
+              _messages(),
+              SizedBox(height: 16.0,),
+              _tabsD(context),
+              _tabPages(),
+            ],
           ),
         ),
       ),
@@ -123,33 +122,33 @@ class _MyDrawerState extends State<MyDrawer> with TickerProviderStateMixin{
       child: TabBar(
         controller: _tabController,
         tabs: [
-        Tab(
-          child: GestureDetector(
+        InkWell(
+          child: Tab(
             child: Text(
               'Recent',
               style: MyTypography.whiteParagraph,
             ),
-            onTap: () => onChangePage( 0 )
           ),
+          onTap: () => onChangePage( 0 )
         ),
-        Tab(
-          child: GestureDetector(
+        InkWell(
+          child: Tab(
             child: Text(
               'Favorites',
               style: MyTypography.whiteParagraph,
             ),
             // onTap: () => onChangePage( 1 )
-            onTap: () => Navigator.pushNamed(context, '/favorites'),
           ),
+          onTap: () => Navigator.pushNamed(context, '/favorites'),
         ),
-        Tab(
-          child: GestureDetector(
+        InkWell(
+          child: Tab(
             child: Text(
               'Planned',
               style: MyTypography.whiteParagraph,
             ),
-            onTap: () => Navigator.pushNamed(context, '/planned'),
           ),
+          onTap: () => Navigator.pushNamed(context, '/planned'),
         ),
       ]),
     );

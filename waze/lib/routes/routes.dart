@@ -4,6 +4,7 @@ import 'package:waze/pages/home_page.dart';
 import 'package:waze/pages/inbox_page.dart';
 import 'package:waze/pages/my_waze_page.dart';
 import 'package:waze/pages/planned_page.dart';
+import 'package:waze/pages/report_page.dart';
 import 'package:waze/pages/ride_out_page.dart';
 import 'package:waze/pages/welcome_page.dart';
 
@@ -16,5 +17,6 @@ Map<String, WidgetBuilder> getAplicationRoutes() {
       '/inbox'      : (BuildContext context) => InboxPage(),
       '/myWaze'     : (BuildContext context) => MyWazePage(),
       '/welcome'    : (BuildContext context) => WelcomePage(),
+      '/report'     : (BuildContext context) => ReportPage(),
   };
 }
